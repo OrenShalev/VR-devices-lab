@@ -11,7 +11,7 @@ I really like A-Frame's approach of using HTML for setting up a scene, and also 
 Since this is *Web*VR, A-Frame is built for all kinds of devices -- but I found out that the trick is setting up convenient **controls** for all these devices. That took me most of the time and was the most challenging part. More on that below.
 
 ## Building blocks I've used
-* Plain objects, like boxes with image textures for the phones and very low cylinders for the "stepping stones". Also text labels (2D and visible from only one side :thumbdown:) and a-sky, which is just a big sphere with an equirectangular image on its inside.
+* Plain objects, like boxes with image textures for the phones and very low cylinders for the "stepping stones". Also text labels (2D and visible from only one side :thumbsdown:) and a-sky, which is just a big sphere with an equirectangular image on its inside.
 
 * Plugin for replacing the sky image nicely with fade to black.
 
