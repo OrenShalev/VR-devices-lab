@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>A-Frame experiment, Oren Shalev</title>
+  <meta name="description" content="First experiment with A-Frame; objects, controls etc.">
+  
+  <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+  <script src="https://npmcdn.com/aframe-animation-component@3.0.1"></script>
+  <script src="https://npmcdn.com/aframe-event-set-component@3.0.1"></script>
+  <script src="https://npmcdn.com/aframe-layout-component@3.0.1"></script>
+  <script src="https://npmcdn.com/aframe-template-component@3.1.1"></script>
+  <script src="components/set-image.js"></script>
+  <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.11.4/dist/aframe-extras.js"></script>
+  <script src="https://unpkg.com/aframe-html-shader@0.2.0/dist/aframe-html-shader.min.js"></script>
+</head>
+<body>
+<a-scene >
+  <a-assets>
+    <audio id="click-sound" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg"></audio>
+
+    <!--         devices -->
+    <img id="nexus5x" src="https://cdn.glitch.com/6c7ae5cd-a931-4eb2-80d5-58d268268359%2Fphone-nexus5x.png?1504689803112">
+    <img id="iphone7" src="https://cdn.glitch.com/6c7ae5cd-a931-4eb2-80d5-58d268268359%2Fphone-iphone7.png?1504689802880">
+    <img id="oneplus5" src="https://cdn.glitch.com/6c7ae5cd-a931-4eb2-80d5-58d268268359%2Fphone-oneplus5.png?1504762487726">
+    <img id="samsungs8" src="https://cdn.glitch.com/6c7ae5cd-a931-4eb2-80d5-58d268268359%2Fphone-samsungs8.png?1504762489020">
+    <img id="iphone7white" src="https://cdn.glitch.com/6c7ae5cd-a931-4eb2-80d5-58d268268359%2Fphone-iphone7white.png?1504762487559">
+    <img id="iphone4" src="https://cdn.glitch.com/6c7ae5cd-a931-4eb2-80d5-58d268268359%2Fphone-iphone4.png?1504762487783">
+
+    <!--         sky -->
+    <img id="sky-plants" src="https://cdn.glitch.com/6c7ae5cd-a931-4eb2-80d5-58d268268359%2Fsky-plants-big.jpg?1504689805044">
+    <img id="sky-sagrada" src="https://cdn.glitch.com/6c7ae5cd-a931-4eb2-80d5-58d268268359%2Fsky-sagrada-big.jpg?1504689805044">
+    <img id="sky-guel" src="https://cdn.glitch.com/6c7ae5cd-a931-4eb2-80d5-58d268268359%2Fsky-guel-big.jpg?1504689805044">
+    <img id="sky-grass" src="https://cdn.glitch.com/6c7ae5cd-a931-4eb2-80d5-58d268268359%2Fsky-grass-big.jpg?1504731767896">
+    <img id="sky-stars" src="https://cdn.glitch.com/6c7ae5cd-a931-4eb2-80d5-58d268268359%2Fsky-stars.jpg?1504732036832">
+
+    <!--         sky thumbnails -->
+    <img id="sky-plants-thumb" src="https://cdn.glitch.com/6c7ae5cd-a931-4eb2-80d5-58d268268359%2Fsky-plants-thumb.jpg?1504689805044">
+    <img id="sky-sagrada-thumb" src="https://cdn.glitch.com/6c7ae5cd-a931-4eb2-80d5-58d268268359%2Fsky-sagrada-thumb.jpg?1504689805044">
+    <img id="sky-guel-thumb" src="https://cdn.glitch.com/6c7ae5cd-a931-4eb2-80d5-58d268268359%2Fsky-guel-thumb.PNG?1504732883829">
+    <img id="sky-grass-thumb" src="https://cdn.glitch.com/6c7ae5cd-a931-4eb2-80d5-58d268268359%2Fsky-grass-thumb.PNG?1504732434450?1504689805044">
+    <img id="sky-stars-thumb" src="https://cdn.glitch.com/6c7ae5cd-a931-4eb2-80d5-58d268268359%2Fsky-stars-thumb.PNG?1504732664010">
+
+
+    <!--         people -->
+    <img id="person-oren" src="https://cdn.glitch.com/6c7ae5cd-a931-4eb2-80d5-58d268268359%2Fperson-oren.png?1504694694362">
+    <img id="person-tickle" src="https://cdn.glitch.com/d5423861-2fc9-4581-af41-894230c95708%2Fmr%20tickle.png?1507387265687">
+    <img id="person-sneeze" src="http://cdn.playbuzz.com/cdn/64469209-5454-4789-9404-8ef67b4ac7f5/eae05292-7cd6-4226-9543-b5016a72cea2.jpg">
+    <img id="person-sunshine" src="https://cdn.glitch.com/d5423861-2fc9-4581-af41-894230c95708%2Fms%20sunshine.png?1507387897087">
+    <img id="person-chatterbox" src="https://cdn.glitch.com/d5423861-2fc9-4581-af41-894230c95708%2Fchatterbox.png?1507388511013">
+
+    <!-- Image link template to be reused. -->
+    <script id="link" type="text/html">
+      <a-entity class="link"
+                geometry="primitive: plane; height: 1; width: 1"
+                material="shader: flat; src: ${thumb}"
+                event-set__1="_event: mousedown; scale: 1 1 1"
+                event-set__2="_event: mouseup; scale: 1.1 1.1 1"
+                event-set__3="_event: mouseenter; scale: 1.1 1.1 1"
+                event-set__4="_event: mouseleave; scale: 1 1 1"
+                set-image="on: click; target: #image-360; src: ${src}"
+                sound="on: click; src: #click-sound"></a-entity>
+    </script>
+
+
+    <script id="blip" type="text/html">
+      <a-entity class="link"
+                geometry="primitive: cylinder; height: .1; radius: .5; "
+                material="color: ${color};"
+                event-set__1="_event: mousedown; scale: 1 1 1"
+                event-set__2="_event: mouseup; scale: 1.2 1.2 1"
+                event-set__3="_event: mouseenter; scale: 1.2 1.2 1"
+                event-set__4="_event: mouseleave; scale: 1 1 1"
+
+                sound="on: click; src: #click-sound"></a-entity>
+    </script>
+
+    <a-mixin id="checkpoint"></a-mixin>
+    <a-mixin id="checkpoint-hovered" color="#6CEEB5"></a-mixin>
+    <a-asset-item id="cityModel" src="https://cdn.glitch.com/6c7ae5cd-a931-4eb2-80d5-58d268268359%2Fbatman.gltf?1504708529282"></a-asset-item>
+  </a-assets>
+
+  <!--       default sky -->
+  <a-sky id="image-360" radius="20" position="0 4 0" src="#sky-plants"></a-sky>
+<!--   Camera + cursor. -->
+<!--   To enable flying with wasd, add this to the following a-entity: wasd-controls="fly: true;" -->
+  <a-entity camera="userHeight: 1.6" universal-controls="movementControls: checkpoint, keyboard;  "
+            checkpoint-controls="mode: animate"
+  >
+    <a-cursor id="cursor"
+              animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+              animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+              event-set__1="_event: mouseenter; color: white"
+              event-set__2="_event: mouseleave; color: black"
+              fuse="true"
+              raycaster="objects: .link"></a-cursor>
+  </a-entity>
+  
+<!--   THE SCENE -->
+  
+<!--   starting point: label, stepping stone -->
+  <a-text value="<-- Look around -->" position="0 1.6 -1" scale="0.5 0.5 0" align="center" ></a-text>
+
+  <a-entity template="src: #blip" checkpoint="offset: 0 1.6 0"  position="0 0 0" data-color="hsl(154, 0%, 68%)"></a-entity>
+
+  
+<!--   change background: label, stepping stones, thumbnails -->
+  <a-text value="Change location?" position="1.5 1.8 2" rotation="0 -143 0" scale="0.5 0.5 0" align="center" ></a-text>
+
+  <a-entity template="src: #blip" checkpoint="offset: 0 1.6 0"  position="3 0 4" data-color="hsl(300, 53%, 48%)"></a-entity>
+  <a-entity template="src: #blip" checkpoint="offset: 0 1.6 0"  position="6 0 8" data-color="hsl(300, 53%, 48%)"></a-entity>
+  
+  <a-entity id="links3" layout="type: line; margin: 1.5" position="11 1.6 9" rotation="0 -143 0">
+    <a-entity template="src: #link" data-src="#sky-plants" data-thumb="#sky-plants-thumb"></a-entity>
+    <a-entity template="src: #link" data-src="#sky-sagrada" data-thumb="#sky-sagrada-thumb"></a-entity>
+    <a-entity template="src: #link" data-src="#sky-guel" data-thumb="#sky-guel-thumb"></a-entity>
+    <a-entity template="src: #link" data-src="#sky-grass" data-thumb="#sky-grass-thumb"></a-entity>
+    <a-entity template="src: #link" data-src="#sky-stars" data-thumb="#sky-stars-thumb"></a-entity>
+  </a-entity>
+
+  
+<!--   operator view: label, stepping stong with high Y value -->
+  <a-text value="Operator view" position="0 1.6 2.5" rotation="0 -180 0" scale="0.5 0.5 0" align="center" ></a-text>
+  
+  <a-entity template="src: #blip" checkpoint="offset: 0 10 0"  position="0 0 5" data-color="hsl(184, 53%, 48%)"></a-entity>
+
+
+<!--   Android section: label, stepping stones, devices.  -->
+  <a-text value="This way to Android" position="-2 1.8 -1.5" rotation="0 48 0" scale="0.5 0.5 0" align="center" ></a-text>
+
+  <a-entity template="src: #blip" checkpoint="offset: 0 1.6 0"  position="-4 0 -3" data-color="hsl(64, 53%, 48%)"></a-entity>
+  <a-entity template="src: #blip" checkpoint="offset: 0 1.6 0"  position="-8 0 -6" data-color="hsl(64, 53%, 48%)"></a-entity>
+  <a-entity template="src: #blip" checkpoint="offset: 0 1.6 0"  position="-12 0 -9" data-color="hsl(64, 53%, 48%)"></a-entity>
+
+<!--   some devices are "free" (green), "disconnected" (semi-transparent), or "in use" (red with user name and avatar) -->
+<!--   in this experiment I replaced real names and images with mocks -->
+  <a-box src="#oneplus5" position="-12 1.4 -10" height="1" width=".5" depth="0.04" rotation="0 0 0"></a-box>
+  <a-box position="-11.45 1.4 -10" height="1" width=".5" depth="0.04" rotation="0 0 0" material="src: #nexus5x; color: hsl(0, 90%, 70%)">
+    <a-box src="#person-chatterbox" height=".1" width=".1" depth=".01" position="-.2 .6 .05">
+      <a-text value="Miss Chatterbox" position=".1 0 0" scale="0.5 0.5 0" ></a-text>
+    </a-box>
+  </a-box>
+  <a-box position="-12.5 1.4 -9.87" height="1" width=".5" depth="0.04" rotation="0 30 0" material="src: #nexus5x; color: hsl(120, 90%, 70%)">
+    <a-box src="#person-oren" height=".1" width=".1" depth=".01" position="-.2 .6 .05">
+      <a-text value="Me" position=".1 0 0" scale="0.5 0.5 0" ></a-text>
+    </a-box>
+  </a-box>
+  <a-box src="#samsungs8" position="-12.87 1.4 -9.5" height="1" width=".5" depth="0.04" rotation="0 60 0"></a-box>
+  <a-box position="-13 1.4 -9" height="1" width=".5" depth="0.04" rotation="0 90 0" material="src: #samsungs8; color: hsl(0, 90%, 70%)">
+    <a-box src="#person-tickle" height=".1" width=".1" depth=".01" position="-.2 .6 .05">
+      <a-text value="Mr. Tickle" position=".1 0 0" scale="0.5 0.5 0" ></a-text>
+    </a-box>
+  </a-box>
+  <a-box src="#oneplus5" position="-12.87 1.4 -8.5" height="1" width=".5" depth="0.04" rotation="0 120 0"></a-box>
+  <a-box src="#nexus5x" position="-12.6 1.4 -8.03" height="1" width=".5" depth="0.04" rotation="0 120 0" transparent="true" opacity="0.5"></a-box>
+  
+  
+<!--   iOS section: label, stepping stones, devices.  -->
+  <a-text value="This way to iOS" position="2 1.8 -1.5" rotation="0 -48 0" scale="0.5 0.5 0" align="center" ></a-text>
+
+  <a-entity template="src: #blip" checkpoint="offset: 0 1.6 0"  position="4 0 -3" data-color="hsl(124, 53%, 48%)"></a-entity>
+  <a-entity template="src: #blip" checkpoint="offset: 0 1.6 0"  position="8 0 -6" data-color="hsl(124, 53%, 48%)"></a-entity>
+  <a-entity template="src: #blip" checkpoint="offset: 0 1.6 0"  position="12 0 -9" data-color="hsl(124, 53%, 48%)"></a-entity>
+  
+<!--   some devices are "free" (green), "disconnected" (semi-transparent), or "in use" (red with user name and avatar) -->
+<!--   in this experiment I replaced real names and images with mocks -->
+  <a-box src="#iphone7white" position="12 1.4 -10" height="1" width=".5" depth="0.04" rotation="0 0 0" transparent="true" opacity="0.5"></a-box>
+  <a-box position="12.5 1.4 -9.87" height="1" width=".5" depth="0.04" rotation="0 -30 0" material="src: #iphone7; color: hsl(0, 90%, 70%)">
+    <a-box src="#person-sneeze" height=".1" width=".1" depth=".01" position="-.2 .6 .05">
+      <a-text value="Mr. Sneeze" position=".1 0 0" scale="0.5 0.5 0" ></a-text>
+    </a-box>
+  </a-box>
+  <a-box src="#iphone7white" position="12.87 1.4 -9.5" height="1" width=".5" depth="0.04" rotation="0 -60 0"></a-box>
+  <a-box src="#iphone7" position="13 1.4 -9" height="1" width=".5" depth="0.04" rotation="0 -90 0"></a-box>
+  <a-box position="12.87 1.4 -8.5" height="1" width=".5" depth="0.04" rotation="0 -120 0" material="src: #iphone7white; color: hsl(0, 90%, 70%)">
+    <a-box src="#person-sunshine" height=".1" width=".1" depth=".01" position="-.2 .6 .05">
+      <a-text value="Miss Sunshine" position=".1 0 0" scale="0.5 0.5 0" ></a-text>
+    </a-box>
+  </a-box>
+  <a-box src="#iphone7" position="12.6 1.4 -8.03" height="1" width=".5" depth="0.04" rotation="0 -120 0"></a-box>
+  <a-box src="#iphone4" position="11.45 1.4 -10" height="1" width=".5" depth="0.04" rotation="0 0 0"></a-box>
+
+</a-scene>
+</body>
+</html>
